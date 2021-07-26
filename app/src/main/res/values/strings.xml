@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Arta Lele</string>
+    <string name="pilih_kategori">Pilih Kategori</string>
+    <string name="tambahkan_deskripsi">Tambahkan Deskripsi</string>
+    <string name="pilih_tanggal">Pilih Tanggal</string>
+    <string name="zero_price">Rp.0</string>
+    <string name="zero_weight">0 kg</string>
+    <string name="total">Total</string>
+    <string name="buku_hutang">Buku Hutang</string>
+    <string name="transaction">Transaction</string>
+    <string name="setting">Setting</string>
+    <string name="total_bersih">Total Bersih</string>
+    <string name="pemasukan">Pemasukan</string>
+    <string name="pengeluaran">Pengeluaran</string>
+    <string name="masukkan_nominal">Masukkan Nominal</string>
+    <string name="simpan">Simpan</string>
+    <string name="keperluan">Keperluan (Tidak Wajib)</string>
+    <string name="nama">nama</string>
+</resources>
