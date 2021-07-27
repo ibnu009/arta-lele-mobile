@@ -47,6 +47,7 @@ abstract class ArtaDatabase : RoomDatabase() {
             }
             return INSTANCE as ArtaDatabase
         }
+
     }
 
 }

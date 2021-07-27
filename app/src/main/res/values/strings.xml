@@ -16,4 +16,7 @@
     <string name="simpan">Simpan</string>
     <string name="keperluan">Keperluan (Tidak Wajib)</string>
     <string name="nama">nama</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="c">C</string>
 </resources>

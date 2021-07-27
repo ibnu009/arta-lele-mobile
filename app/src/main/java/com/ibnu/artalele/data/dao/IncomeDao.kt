@@ -13,6 +13,12 @@ interface IncomeDao {
     @Query("SELECT * FROM income ORDER BY id ASC")
     fun getAllIncome(): PagingSource<Int, IncomeEntity>
 
+    @Query("SELECT * FROM income WHERE id= :id")
+    fun getIncomeById(id: Int): PagingSource<Int, IncomeEntity>
+
+    @Update
+    fun updateIncome(income: IncomeEntity)
+
     @Delete
     fun deleteIncome(income: IncomeEntity)
 

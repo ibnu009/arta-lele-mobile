@@ -15,4 +15,5 @@ data class DebtEntity(
     @ColumnInfo(name = "due_date")
     val dueDate: String,
     val description: String?
+
 )

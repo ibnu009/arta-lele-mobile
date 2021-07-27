@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.ibnu.artalele.R
 import com.ibnu.artalele.data.entities.DebtEntity
@@ -43,6 +44,11 @@ class TambahHutangFragment : Fragment() {
         binding?.btnSave?.setOnClickListener {
             saveDebt()
         }
+
+        binding?.selectTotal?.setOnClickListener {
+            view.findNavController().navigate(R.id.action_tambahHutangFragment_to_calculatorFragment)
+        }
+
     }
 
     private fun initiateView() {
@@ -67,7 +73,6 @@ class TambahHutangFragment : Fragment() {
                 description = keperluan
             )
         )
-
     }
 
     override fun onDestroy() {

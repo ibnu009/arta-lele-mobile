@@ -19,5 +19,24 @@
         android:id="@+id/bukuHutangFragment"
         android:name="com.ibnu.artalele.ui.hutang.BukuHutangFragment"
         android:label="buku_hutang_fragment"
-        tools:layout="@layout/buku_hutang_fragment" />
+        tools:layout="@layout/buku_hutang_fragment" >
+        <action
+            android:id="@+id/action_bukuHutangFragment_to_tambahHutangFragment"
+            app:destination="@id/tambahHutangFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tambahHutangFragment"
+        android:name="com.ibnu.artalele.ui.hutang.tambah.TambahHutangFragment"
+        android:label="tambah_hutang_fragment"
+        tools:layout="@layout/tambah_hutang_fragment" >
+        <action
+            android:id="@+id/action_tambahHutangFragment_to_calculatorFragment"
+            app:destination="@id/calculatorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calculatorFragment"
+        android:name="com.ibnu.artalele.ui.CalculatorFragment"
+        android:label="fragment_calculator"
+        tools:layout="@layout/fragment_calculator" />
 </navigation>

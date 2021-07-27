@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import com.ibnu.artalele.R
 import com.ibnu.artalele.databinding.BukuHutangFragmentBinding
 
 class BukuHutangFragment : Fragment() {
@@ -25,6 +27,9 @@ class BukuHutangFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding?.fabAddDebt?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_bukuHutangFragment_to_tambahHutangFragment)
+        }
 
     }
 
