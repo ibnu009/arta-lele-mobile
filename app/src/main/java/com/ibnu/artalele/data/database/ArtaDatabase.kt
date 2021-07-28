@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ibnu.artalele.data.dao.DebtDao
 import com.ibnu.artalele.data.dao.IncomeDao
 import com.ibnu.artalele.data.dao.SpendingDao
 import com.ibnu.artalele.data.entities.DebtEntity
 import com.ibnu.artalele.data.entities.IncomeEntity
 import com.ibnu.artalele.data.entities.SpendingEntity
+import com.ibnu.artalele.data.entities.fts.DebtFTS
 import com.ibnu.artalele.utils.ConstValue.DATABASE_NAME
 
 @Database(
@@ -17,9 +19,10 @@ import com.ibnu.artalele.utils.ConstValue.DATABASE_NAME
         IncomeEntity::class,
         SpendingEntity::class,
         DebtEntity::class,
+        DebtFTS::class,
     ],
-    version = 1,
-    exportSchema = false
+    version = 2,
+    exportSchema = true
 )
 abstract class ArtaDatabase : RoomDatabase() {
 
@@ -40,6 +43,12 @@ abstract class ArtaDatabase : RoomDatabase() {
                             ArtaDatabase::class.java,
                             DATABASE_NAME
                         )
+                            .addCallback(object : RoomDatabase.Callback() {
+                                override fun onCreate(db: SupportSQLiteDatabase) {
+                                    super.onCreate(db)
+                                    db.execSQL("INSERT INTO debt_fts(debt_fts) VALUES ('rebuild')")
+                                }
+                            })
                             .fallbackToDestructiveMigration()
                             .build()
                     }

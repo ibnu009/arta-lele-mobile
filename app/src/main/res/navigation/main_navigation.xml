@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_bukuHutangFragment_to_tambahHutangFragment"
             app:destination="@id/tambahHutangFragment" />
+        <action
+            android:id="@+id/action_bukuHutangFragment_to_detailHutangFragment"
+            app:destination="@id/detailHutangFragment" />
     </fragment>
 
     <fragment
@@ -33,10 +36,45 @@
         <action
             android:id="@+id/action_tambahHutangFragment_to_calculatorFragment"
             app:destination="@id/calculatorFragment" />
+        <action
+            android:id="@+id/action_tambahHutangFragment_to_deskriptionFragment"
+            app:destination="@id/deskriptionFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/calculatorFragment"
-        android:name="com.ibnu.artalele.ui.CalculatorFragment"
+        android:name="com.ibnu.artalele.ui.extra.CalculatorFragment"
         android:label="fragment_calculator"
-        tools:layout="@layout/fragment_calculator" />
+        tools:layout="@layout/fragment_calculator" >
+
+        <argument
+            android:name="passToolbarName"
+            android:defaultValue="toolbar"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/deskriptionFragment"
+        android:name="com.ibnu.artalele.ui.extra.DeskriptionFragment"
+        android:label="fragment_deskription"
+        tools:layout="@layout/fragment_deskription" >
+
+        <argument
+            android:name="passToolbarName"
+            android:defaultValue="toolbar"
+            app:argType="string"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailHutangFragment"
+        android:name="com.ibnu.artalele.ui.hutang.detail.DetailHutangFragment"
+        android:label="detail_hutang_fragment"
+        tools:layout="@layout/detail_hutang_fragment" >
+
+        <argument
+            android:name="passHutangId"
+            android:defaultValue="0"
+            app:argType="integer"/>
+
+    </fragment>
 </navigation>

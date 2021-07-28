@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.ibnu.artalele.R
@@ -14,11 +15,19 @@ import com.ibnu.artalele.data.entities.DebtEntity
 import com.ibnu.artalele.databinding.TambahHutangFragmentBinding
 import com.ibnu.artalele.di.ViewModelFactory
 import com.ibnu.artalele.utils.ArtaLeleHelper
+import com.ibnu.artalele.utils.ConstValue.CALCULATOR_HUTANG
+import com.ibnu.artalele.utils.ConstValue.DEBT_KEPERLUAN_KEY
+import com.ibnu.artalele.utils.ConstValue.DEBT_NAME_KEY
+import com.ibnu.artalele.utils.ConstValue.DEBT_REQUEST_KEY
+import com.ibnu.artalele.utils.ConstValue.DEBT_RESULT_KEY
+import com.ibnu.artalele.utils.ConstValue.KEPERLUAN_HUTANG
+import com.ibnu.artalele.utils.ConstValue.NAMA_PENGHUTANG
 
 class TambahHutangFragment : Fragment() {
 
-    private var total = 0
     private var date = ""
+
+    private var total: String? = null
 
     private val viewModel by lazy {
         val factory = context?.applicationContext?.let { ViewModelFactory.getInstance(it) }
@@ -40,20 +49,34 @@ class TambahHutangFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initiateView()
-        binding?.btnSave?.setOnClickListener {
-            saveDebt()
+        setFragmentResultListener(DEBT_REQUEST_KEY) { _, bundle ->
+            total = ArtaLeleHelper.addRupiahToAmountFromString(bundle.getString(DEBT_RESULT_KEY) ?: "0")
+            binding?.tvTotal?.text = total
         }
 
-        binding?.selectTotal?.setOnClickListener {
-            view.findNavController().navigate(R.id.action_tambahHutangFragment_to_calculatorFragment)
-        }
+        initiateView()
+        initiateButtonFunction()
 
     }
 
     private fun initiateView() {
         date = ArtaLeleHelper.getTodayDate()
         binding?.tvDate?.text = date
+    }
+
+    private fun initiateButtonFunction() {
+
+        binding?.btnSave?.setOnClickListener {
+            saveDebt()
+        }
+
+        binding?.selectTotal?.setOnClickListener { view ->
+            val action =
+                TambahHutangFragmentDirections.actionTambahHutangFragmentToCalculatorFragment(
+                    CALCULATOR_HUTANG
+                )
+            view.findNavController().navigate(action)
+        }
     }
 
     private fun saveDebt() {
@@ -64,10 +87,11 @@ class TambahHutangFragment : Fragment() {
             Toast.makeText(requireContext(), "Nama tidak boleh kosong", Toast.LENGTH_SHORT)
                 .show()
         }
+
         viewModel?.insertDebt(
             DebtEntity(
                 name = name,
-                amount = total.toString(),
+                amount = total ?: "0",
                 startDate = date,
                 dueDate = date,
                 description = keperluan

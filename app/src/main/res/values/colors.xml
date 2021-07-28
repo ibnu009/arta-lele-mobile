@@ -10,9 +10,11 @@
     <color name="darkGrey">#3E3E3E</color>
     <color name="green">#19C33E</color>
 
+    <color name = "btnConfirm">#03A9F4</color>
+
 
     <color name="white">#FFFFFFFF</color>
-    <color name="bg_base">#DADADA</color>
+    <color name="bg_base">#F8F8F8</color>
     <color name="colorLightGrey">#969797</color>
 
     <color name = "actionButton">#EAE6E6</color>
@@ -20,6 +22,6 @@
 
     <color name="btn_green">#40B12C</color>
     <color name="red">#C52828</color>
-    <color name="light_red">#DF3F3F</color>
+    <color name="light_red">#F65656</color>
 
 </resources>

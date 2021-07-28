@@ -17,6 +17,11 @@ class ArtaLeleHelper {
             return "Rp $formattedAmount"
         }
 
+        fun addRupiahToAmountFromString(amount: String): String {
+            val formattedAmount = NumberFormat.getIntegerInstance().format(amount)
+            return "Rp $formattedAmount"
+        }
+
         fun getTodayDate(): String {
             val date = Calendar.getInstance().time
             val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ROOT)

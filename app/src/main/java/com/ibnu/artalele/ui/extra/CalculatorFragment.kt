@@ -1,4 +1,4 @@
-package com.ibnu.artalele.ui
+package com.ibnu.artalele.ui.extra
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,10 +9,9 @@ import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.findNavController
-import com.ibnu.artalele.R
 import com.ibnu.artalele.databinding.FragmentCalculatorBinding
-import com.ibnu.artalele.databinding.HomeFragmentBinding
 import com.ibnu.artalele.utils.ConstValue.DEBT_REQUEST_KEY
+import com.ibnu.artalele.utils.ConstValue.DEBT_RESULT_KEY
 
 class CalculatorFragment : Fragment() {
 
@@ -33,13 +32,24 @@ class CalculatorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val safeArgs = arguments?.let { CalculatorFragmentArgs.fromBundle(it) }
 
-        binding?.btnSave?.setOnClickListener {
-            setFragmentResult(DEBT_REQUEST_KEY, bundleOf("result" to total))
+        numberClickEvent()
+        initiateToolbar(safeArgs?.passToolbarName)
+
+    }
+
+    private fun initiateToolbar(title: String?) {
+        binding?.toolbarCalculator?.tvToolbarTitle?.text = title
+
+        binding?.toolbarCalculator?.btnSave?.setOnClickListener {
+            setFragmentResult(DEBT_REQUEST_KEY, bundleOf(DEBT_RESULT_KEY to total))
             it.findNavController().popBackStack()
         }
 
-        numberClickEvent()
+        binding?.toolbarCalculator?.imgBack?.setOnClickListener {
+            it.findNavController().popBackStack()
+        }
     }
 
     private fun numberClickEvent() {
@@ -89,8 +99,6 @@ class CalculatorFragment : Fragment() {
                 isComma = true
                 appendNumberAndDisplay(".")
             }
-
-
         }
     }
 

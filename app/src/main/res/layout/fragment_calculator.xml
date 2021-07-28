@@ -4,15 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CalculatorFragment"
+    tools:context=".ui.extra.CalculatorFragment"
     tools:ignore="HardcodedText">
 
-    <Button
-        android:id="@+id/btn_save"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/toolbar_calculator"
+        layout="@layout/toolbar_arta_lele"
+        app:layout_constraintTop_toTopOf="parent"/>
+
 
     <TextView
         android:id="@+id/tv_result"
