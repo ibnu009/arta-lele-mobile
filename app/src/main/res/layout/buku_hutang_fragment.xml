@@ -96,6 +96,7 @@
                 android:id="@+id/rv_hutang"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layoutAnimation="@anim/layout_animation"
                 android:layout_below="@id/view_1"
                 android:layout_marginTop="16dp"
                 tools:listitem="@layout/hutang_item" />

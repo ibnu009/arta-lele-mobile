@@ -9,11 +9,10 @@ data class DebtEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
-    val amount: String,
+    val amount: Int,
     @ColumnInfo(name = "start_date")
     val startDate: String,
     @ColumnInfo(name = "due_date")
     val dueDate: String,
     val description: String?
-
 )

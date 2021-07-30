@@ -3,12 +3,13 @@ package com.ibnu.artalele.utils
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 
 class ArtaLeleHelper {
 
     companion object {
         fun convertStringToNumberOnly(string: String): Int {
-            val rawNumber = string.replace("\\D+", "")
+            val rawNumber = string.filter { it.isDigit() }
             return Integer.parseInt(rawNumber)
         }
 
@@ -17,8 +18,14 @@ class ArtaLeleHelper {
             return "Rp $formattedAmount"
         }
 
-        fun addRupiahToAmountFromString(amount: String): String {
-            val formattedAmount = NumberFormat.getIntegerInstance().format(amount)
+        fun addRupiahToThousandAmountFromString(amount: String): String {
+            var rawAmount = ""
+            rawAmount = if (amount.contains(".")) {
+                amount.substring(0, amount.indexOf("."))
+            } else {
+                amount
+            }
+            val formattedAmount = NumberFormat.getIntegerInstance().format(rawAmount.toInt())
             return "Rp $formattedAmount"
         }
 

@@ -27,4 +27,8 @@ class HutangDataSource(private val debtDao: DebtDao) {
         debtDao.getDebts(query)
     }.liveData
 
+    suspend fun getAmount() = debtDao.getDebtAmount()
+
+
+
 }

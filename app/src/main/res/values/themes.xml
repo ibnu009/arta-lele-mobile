@@ -47,6 +47,17 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="GoButtonStyle">
+        <item name="android:background">@color/btnConfirm</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="layout_constraintHeight_percent">0.4</item>
+        <item name="layout_constraintWidth_percent">0.25</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="ArtaLeleAmountNegativeTextStyle">
         <item name="android:textColor">@color/light_red</item>
         <item name="android:textSize">28sp</item>

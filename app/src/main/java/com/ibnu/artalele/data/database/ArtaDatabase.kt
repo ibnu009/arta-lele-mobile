@@ -21,7 +21,7 @@ import com.ibnu.artalele.utils.ConstValue.DATABASE_NAME
         DebtEntity::class,
         DebtFTS::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = true
 )
 abstract class ArtaDatabase : RoomDatabase() {

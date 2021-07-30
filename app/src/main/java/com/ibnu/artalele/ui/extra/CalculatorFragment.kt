@@ -5,17 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.findNavController
 import com.ibnu.artalele.databinding.FragmentCalculatorBinding
 import com.ibnu.artalele.utils.ConstValue.DEBT_REQUEST_KEY
 import com.ibnu.artalele.utils.ConstValue.DEBT_RESULT_KEY
+import net.objecthunter.exp4j.ExpressionBuilder
 
 class CalculatorFragment : Fragment() {
 
     private var total: String = "0"
+    private var realResult = 0.0
     private var isNew: Boolean = true
     private var isComma: Boolean = false
 
@@ -43,8 +44,11 @@ class CalculatorFragment : Fragment() {
         binding?.toolbarCalculator?.tvToolbarTitle?.text = title
 
         binding?.toolbarCalculator?.btnSave?.setOnClickListener {
-            setFragmentResult(DEBT_REQUEST_KEY, bundleOf(DEBT_RESULT_KEY to total))
-            it.findNavController().popBackStack()
+            saveTotal(it)
+        }
+
+        binding?.btnGo?.setOnClickListener {
+            saveTotal(it)
         }
 
         binding?.toolbarCalculator?.imgBack?.setOnClickListener {
@@ -59,53 +63,117 @@ class CalculatorFragment : Fragment() {
         }
         isNew = false
 
-        val select = Button(requireContext())
-        
-        when (select.id) {
-            binding?.btnZero?.id -> {
-                appendNumberAndDisplay("0")
+        binding?.btnZero?.setOnClickListener {
+            appendNumberAndDisplay("0", true)
+        }
+
+        binding?.btnOne?.setOnClickListener {
+            appendNumberAndDisplay("1", true)
+        }
+        binding?.btnTwo?.setOnClickListener {
+            appendNumberAndDisplay("2", true)
+        }
+        binding?.btnThree?.setOnClickListener {
+            appendNumberAndDisplay("3", true)
+        }
+        binding?.btnFour?.setOnClickListener {
+            appendNumberAndDisplay("4", true)
+        }
+        binding?.btnFive?.setOnClickListener {
+            appendNumberAndDisplay("5", true)
+        }
+        binding?.btnSix?.setOnClickListener {
+            appendNumberAndDisplay("6", true)
+        }
+        binding?.btnSeven?.setOnClickListener {
+            appendNumberAndDisplay("7", true)
+        }
+        binding?.btnEight?.setOnClickListener {
+            appendNumberAndDisplay("8", true)
+        }
+        binding?.btnNine?.setOnClickListener {
+            appendNumberAndDisplay("9", true)
+        }
+        binding?.btnTripleZeros?.setOnClickListener {
+            appendNumberAndDisplay("000", true)
+        }
+
+        //operator
+        binding?.btnComma?.setOnClickListener {
+            isComma = true
+            appendNumberAndDisplay(".", false)
+        }
+
+        binding?.btnBagi?.setOnClickListener {
+            binding?.btnEqual?.visibility = View.VISIBLE
+            appendNumberAndDisplay("/", false)
+        }
+
+        binding?.btnPlus?.setOnClickListener {
+            binding?.btnEqual?.visibility = View.VISIBLE
+            appendNumberAndDisplay("+", false)
+
+        }
+        binding?.btnMinus?.setOnClickListener {
+            binding?.btnEqual?.visibility = View.VISIBLE
+            appendNumberAndDisplay("-", false)
+
+        }
+
+        binding?.btnKali?.setOnClickListener {
+            binding?.btnEqual?.visibility = View.VISIBLE
+            appendNumberAndDisplay("*", false)
+        }
+
+        binding?.btnEqual?.setOnClickListener {
+            val expression = ExpressionBuilder(binding?.tvExpression?.text.toString()).build()
+            val result = expression.evaluate()
+            val longResult = result.toLong()
+            if (result == longResult.toDouble()) {
+                realResult = result
+                binding?.tvResult?.text = result.toString()
+            } else {
+                realResult = result
+                binding?.tvResult?.text = result.toString()
             }
-            binding?.btnOne?.id -> {
-                appendNumberAndDisplay("1")
+            binding?.btnEqual?.visibility = View.GONE
+        }
+
+        binding?.btnDelete?.setOnClickListener {
+            val dlt = binding?.tvExpression?.text.toString()
+            if (dlt.isNotEmpty()) {
+                binding?.tvExpression?.text = dlt.substring(0, dlt.length - 1)
             }
-            binding?.btnTwo?.id -> {
-                appendNumberAndDisplay("2")
-            }
-            binding?.btnThree?.id -> {
-                appendNumberAndDisplay("3")
-            }
-            binding?.btnFour?.id -> {
-                appendNumberAndDisplay("4")
-            }
-            binding?.btnFive?.id -> {
-                appendNumberAndDisplay("5")
-            }
-            binding?.btnSix?.id -> {
-                appendNumberAndDisplay("6")
-            }
-            binding?.btnSeven?.id -> {
-                appendNumberAndDisplay("7")
-            }
-            binding?.btnEight?.id -> {
-                appendNumberAndDisplay("8")
-            }
-            binding?.btnNine?.id -> {
-                appendNumberAndDisplay("9")
-            }
-            binding?.btnTripleZeros?.id -> {
-                appendNumberAndDisplay("000")
-            }
-            binding?.btnComma?.id -> {
-                isComma = true
-                appendNumberAndDisplay(".")
-            }
+            binding?.tvResult?.text = ""
+        }
+
+        binding?.btnReset?.setOnClickListener {
+            binding?.tvExpression?.text = ""
+            binding?.tvResult?.text = ""
         }
     }
 
-    private fun appendNumberAndDisplay(value: String) {
-        total += value
-        binding?.tvResult?.text = total
+    private fun saveTotal(view: View) {
+        val expressionText = binding?.tvExpression?.text.toString()
+        val resultText = binding?.tvResult?.text.toString()
+
+        if (resultText.isEmpty() || resultText.isBlank()) {
+            setFragmentResult(DEBT_REQUEST_KEY, bundleOf(DEBT_RESULT_KEY to expressionText))
+            view.findNavController().popBackStack()
+        } else {
+            setFragmentResult(DEBT_REQUEST_KEY, bundleOf(DEBT_RESULT_KEY to resultText))
+            view.findNavController().popBackStack()
+        }
+
     }
 
-
+    private fun appendNumberAndDisplay(value: String, canClear: Boolean) {
+        if (canClear) {
+            binding?.tvResult?.text = ""
+            binding?.tvExpression?.append(value)
+        } else {
+            binding?.tvExpression?.append(value)
+            binding?.tvResult?.text = ""
+        }
+    }
 }

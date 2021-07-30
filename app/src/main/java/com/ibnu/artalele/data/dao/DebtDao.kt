@@ -1,6 +1,6 @@
 package com.ibnu.artalele.data.dao
 
-import androidx.paging.DataSource
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
@@ -17,6 +17,9 @@ interface DebtDao {
 
     @Query ("SELECT * FROM debt WHERE id = :id")
     suspend fun getDebtById(id: Int): DebtEntity
+
+    @Query("SELECT amount FROM debt")
+    suspend fun getDebtAmount() : List<Int>
 
     @Update
     fun updateDebt(debt: DebtEntity)

@@ -14,6 +14,7 @@ import com.ibnu.artalele.R
 import com.ibnu.artalele.databinding.DetailHutangFragmentBinding
 import com.ibnu.artalele.databinding.ToolbarEditBinding
 import com.ibnu.artalele.di.ViewModelFactory
+import com.ibnu.artalele.utils.ArtaLeleHelper
 
 class DetailHutangFragment : Fragment() {
 
@@ -46,7 +47,8 @@ class DetailHutangFragment : Fragment() {
     private fun initiateData(id: Int) {
         viewModel?.getDebtId(id)?.observe(viewLifecycleOwner, Observer { debt ->
             binding?.tvDate?.text = debt.startDate
-            binding?.tvTotal?.text = debt.amount
+            val formattedAmount = ArtaLeleHelper.addRupiahToAmount(debt.amount)
+            binding?.tvTotal?.text = formattedAmount
             binding?.tvKeperluan?.text = debt.description
             binding?.tvName?.text = debt.name
         })

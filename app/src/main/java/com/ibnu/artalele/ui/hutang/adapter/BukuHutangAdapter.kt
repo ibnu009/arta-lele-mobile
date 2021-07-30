@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ibnu.artalele.data.entities.DebtEntity
 import com.ibnu.artalele.databinding.HutangItemBinding
+import com.ibnu.artalele.utils.ArtaLeleHelper
 import com.ibnu.artalele.utils.RecyclerviewItemClickHandler
 
 class BukuHutangAdapter(private val onClickAction: RecyclerviewItemClickHandler) :
@@ -34,7 +35,8 @@ class BukuHutangAdapter(private val onClickAction: RecyclerviewItemClickHandler)
         RecyclerView.ViewHolder(binding.root) {
         fun bind(debt: DebtEntity) {
             binding.tvName.text = debt.name
-            binding.tvValue.text = debt.amount
+            val formattedAmount = ArtaLeleHelper.addRupiahToAmount(debt.amount)
+            binding.tvValue.text = formattedAmount
             binding.tvDate.text = debt.startDate
         }
     }

@@ -85,6 +85,9 @@ dependencies {
     //    Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
 
+    // Calculator
+    implementation 'net.objecthunter:exp4j:0.4.8'
+
     //    Room
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"

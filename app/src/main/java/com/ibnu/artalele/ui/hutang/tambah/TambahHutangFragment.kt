@@ -50,7 +50,7 @@ class TambahHutangFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setFragmentResultListener(DEBT_REQUEST_KEY) { _, bundle ->
-            total = ArtaLeleHelper.addRupiahToAmountFromString(bundle.getString(DEBT_RESULT_KEY) ?: "0")
+            total = ArtaLeleHelper.addRupiahToThousandAmountFromString(bundle.getString(DEBT_RESULT_KEY) ?: "0")
             binding?.tvTotal?.text = total
         }
 
@@ -82,6 +82,7 @@ class TambahHutangFragment : Fragment() {
     private fun saveDebt() {
         val name = binding?.edtNama?.text.toString()
         val keperluan = binding?.edtKeperluan?.text.toString()
+        val formattedTotal = total?.let { ArtaLeleHelper.convertStringToNumberOnly(it) }
 
         if (name.isEmpty()) {
             Toast.makeText(requireContext(), "Nama tidak boleh kosong", Toast.LENGTH_SHORT)
@@ -91,7 +92,7 @@ class TambahHutangFragment : Fragment() {
         viewModel?.insertDebt(
             DebtEntity(
                 name = name,
-                amount = total ?: "0",
+                amount = formattedTotal ?: 0,
                 startDate = date,
                 dueDate = date,
                 description = keperluan

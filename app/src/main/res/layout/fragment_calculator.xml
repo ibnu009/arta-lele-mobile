@@ -12,6 +12,18 @@
         layout="@layout/toolbar_arta_lele"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <TextView
+        android:id="@+id/tv_expression"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_result"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/zero_price" />
+
 
     <TextView
         android:id="@+id/tv_result"
@@ -90,9 +102,19 @@
         <Button
             android:id="@+id/btn_equal"
             style="@style/EqualButtonStyle"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:text="="
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_minus" />
+
+        <ImageButton
+            android:id="@+id/btn_go"
+            style="@style/GoButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_arrow_forward"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_minus" />
 
