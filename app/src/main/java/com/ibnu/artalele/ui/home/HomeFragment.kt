@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import com.google.android.material.tabs.TabLayoutMediator
 import com.ibnu.artalele.R
 import com.ibnu.artalele.databinding.HomeFragmentBinding
 
@@ -28,15 +30,32 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initiateViewPager(requireContext())
-
+        initiateButton()
     }
 
     private fun initiateViewPager(context: Context) {
-        val homeViewpager = HomeViewPagerAdapter(requireActivity().supportFragmentManager, context)
+
+        val titles = intArrayOf(
+            R.string.pemasukan,
+            R.string.pengeluaran
+        )
+
+        val homeViewpager = HomeViewPagerAdapter(requireActivity(), titles)
         binding?.transacationViewpager?.adapter = homeViewpager
-        binding?.homeTablayout?.setupWithViewPager(binding?.transacationViewpager)
+
+        TabLayoutMediator(
+            binding?.homeTablayout!!, binding?.transacationViewpager!!
+        ) { tab, position ->
+            tab.text = context.resources.getString(titles[position])
+        }.attach()
     }
 
+
+    private fun initiateButton() {
+        binding?.fabAddTransaction?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_homeFragment_to_tambahTransaksiFragment)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

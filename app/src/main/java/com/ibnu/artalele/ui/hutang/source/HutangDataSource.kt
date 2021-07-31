@@ -29,6 +29,4 @@ class HutangDataSource(private val debtDao: DebtDao) {
 
     suspend fun getAmount() = debtDao.getDebtAmount()
 
-
-
 }

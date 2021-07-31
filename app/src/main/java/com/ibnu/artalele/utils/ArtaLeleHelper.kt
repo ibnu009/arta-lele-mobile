@@ -6,7 +6,6 @@ import java.util.*
 import java.util.regex.Pattern
 
 class ArtaLeleHelper {
-
     companion object {
         fun convertStringToNumberOnly(string: String): Int {
             val rawNumber = string.filter { it.isDigit() }
@@ -29,6 +28,17 @@ class ArtaLeleHelper {
             return "Rp $formattedAmount"
         }
 
+        fun addKgToAmountFromString(amount: String) : String {
+            var rawAmount = ""
+            rawAmount = if (amount.contains(".")) {
+                amount.substring(0, amount.indexOf("."))
+            } else {
+                amount
+            }
+            val formattedAmount = NumberFormat.getIntegerInstance().format(rawAmount.toInt())
+            return "$formattedAmount Kg"
+        }
+
         fun getTodayDate(): String {
             val date = Calendar.getInstance().time
             val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ROOT)
@@ -36,5 +46,4 @@ class ArtaLeleHelper {
             return dateFormat.format(date)
         }
     }
-
 }

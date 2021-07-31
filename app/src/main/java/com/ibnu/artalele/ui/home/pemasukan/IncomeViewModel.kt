@@ -1,7 +1,13 @@
 package com.ibnu.artalele.ui.home.pemasukan
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagingData
+import com.ibnu.artalele.data.entities.IncomeEntity
+import com.ibnu.artalele.ui.home.pemasukan.repo.PemasukanRepositoryImpl
 
-class IncomeViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class IncomeViewModel(private val repository: PemasukanRepositoryImpl) : ViewModel() {
+
+    fun getIncomeList(): LiveData<PagingData<IncomeEntity>> = repository.getListIncome()
+
 }

@@ -9,12 +9,23 @@
         android:id="@+id/homeFragment"
         android:name="com.ibnu.artalele.ui.home.HomeFragment"
         android:label="home_fragment"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_tambahTransaksiFragment"
+            app:destination="@id/tambahTransaksiFragment" />
+    </fragment>
     <fragment
         android:id="@+id/tambahTransaksiFragment"
         android:name="com.ibnu.artalele.ui.home.tambah.TambahTransaksiFragment"
         android:label="tambah_transaksi_fragment"
-        tools:layout="@layout/tambah_transaksi_fragment" />
+        tools:layout="@layout/tambah_transaksi_fragment" >
+        <action
+            android:id="@+id/action_tambahTransaksiFragment_to_calculatorFragment"
+            app:destination="@id/calculatorFragment" />
+        <action
+            android:id="@+id/action_tambahTransaksiFragment_to_deskriptionFragment"
+            app:destination="@id/deskriptionFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bukuHutangFragment"
         android:name="com.ibnu.artalele.ui.hutang.BukuHutangFragment"
@@ -36,9 +47,6 @@
         <action
             android:id="@+id/action_tambahHutangFragment_to_calculatorFragment"
             app:destination="@id/calculatorFragment" />
-        <action
-            android:id="@+id/action_tambahHutangFragment_to_deskriptionFragment"
-            app:destination="@id/deskriptionFragment" />
 
     </fragment>
     <fragment

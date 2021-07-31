@@ -12,6 +12,8 @@
     <string name="total_bersih">Total Bersih</string>
     <string name="pemasukan">Pemasukan</string>
     <string name="pengeluaran">Pengeluaran</string>
+    <string name="jenis_pemasukan">Jenis Pemasukan</string>
+    <string name="jenis_pengeluaran">Jenis Pengeluaran</string>
     <string name="masukkan_nominal">Masukkan Nominal</string>
     <string name="simpan">Simpan</string>
     <string name="keperluan">Keperluan (Tidak Wajib)</string>
@@ -23,4 +25,7 @@
     <string name="nama_penghutang">Nama</string>
     <string name="keperluang_hutang">Keperluan</string>
     <string name="tandai_lunas">Tandai Lunas</string>
+    <string name="list_transaksi">List Transaksi</string>
+    <string name="total_pemasukan">Total Pemasukan</string>
+    <string name="lihat_laporan">Lihat Laporan</string>
 </resources>

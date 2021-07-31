@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.ibnu.artalele.R
 import com.ibnu.artalele.databinding.DetailHutangFragmentBinding
 import com.ibnu.artalele.databinding.ToolbarEditBinding
@@ -41,7 +42,7 @@ class DetailHutangFragment : Fragment() {
         val toolbar = binding?.toolbar
 
         initiateData(id ?: -1)
-        deleteDebt(id ?: -1, toolbar)
+        initiateButton(id ?: -1, toolbar)
     }
 
     private fun initiateData(id: Int) {
@@ -54,19 +55,39 @@ class DetailHutangFragment : Fragment() {
         })
     }
 
-    private fun deleteDebt(id: Int, toolbar: ToolbarEditBinding?) {
-        toolbar?.btnDeleteToolbar?.setOnClickListener {
-            AlertDialog.Builder(requireContext()).apply {
-                setTitle("Hapus Hutang")
-                setMessage("Apakah Anda yakin untuk menghapus hutang ini?")
-                setNegativeButton("Tidak") { p0, _ ->
-                    p0.dismiss()
-                }
-                setPositiveButton("IYA") { _, _ ->
-                    viewModel?.deleteDebt(id)
-                }
-            }.create().show()
+    private fun initiateButton(id: Int, toolbar: ToolbarEditBinding?) {
+
+        toolbar?.btnDeleteToolbar?.setOnClickListener { view ->
+            deleteDebt(id, view)
         }
+
+        toolbar?.btnClose?.setOnClickListener {
+            it.findNavController().popBackStack()
+        }
+
+        toolbar?.btnEdit?.setOnClickListener {
+
+        }
+
+    }
+
+    private fun deleteDebt(id: Int, view: View) {
+        AlertDialog.Builder(requireContext()).apply {
+            setTitle("Hapus Hutang")
+            setMessage("Apakah Anda yakin untuk menghapus hutang ini?")
+            setNegativeButton("Tidak") { p0, _ ->
+                p0.dismiss()
+            }
+            setPositiveButton("IYA") { _, _ ->
+                try {
+                    viewModel?.deleteDebt(id)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    view.findNavController().popBackStack()
+                }
+            }
+        }.create().show()
     }
 
 }

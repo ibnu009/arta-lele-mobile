@@ -5,9 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.ibnu.artalele.data.dao.CategoryDao
 import com.ibnu.artalele.data.dao.DebtDao
 import com.ibnu.artalele.data.dao.IncomeDao
 import com.ibnu.artalele.data.dao.SpendingDao
+import com.ibnu.artalele.data.entities.CategoryEntity
 import com.ibnu.artalele.data.entities.DebtEntity
 import com.ibnu.artalele.data.entities.IncomeEntity
 import com.ibnu.artalele.data.entities.SpendingEntity
@@ -19,6 +21,7 @@ import com.ibnu.artalele.utils.ConstValue.DATABASE_NAME
         IncomeEntity::class,
         SpendingEntity::class,
         DebtEntity::class,
+        CategoryEntity::class,
         DebtFTS::class,
     ],
     version = 3,
@@ -29,6 +32,7 @@ abstract class ArtaDatabase : RoomDatabase() {
     abstract fun getIncomeDao(): IncomeDao
     abstract fun getSpendingDao(): SpendingDao
     abstract fun getDebtDao(): DebtDao
+    abstract fun getCategoryDao(): CategoryDao
 
     companion object {
         @Volatile

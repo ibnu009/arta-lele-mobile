@@ -2,23 +2,25 @@ package com.ibnu.artalele.ui.home
 
 import android.content.Context
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ibnu.artalele.R
 import com.ibnu.artalele.ui.home.pemasukan.IncomeFragment
 import com.ibnu.artalele.ui.home.pengeluaran.SpendingFragment
 
-class HomeViewPagerAdapter(fm: FragmentManager, private val context: Context) :
-    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class HomeViewPagerAdapter(fa: FragmentActivity, private val tabTitles: IntArray) :
+    FragmentStateAdapter(fa) {
 
-    private val tabTitles = intArrayOf(
-        R.string.pemasukan,
-        R.string.pengeluaran
-    )
+//    private val tabTitles = intArrayOf(
+//        R.string.pemasukan,
+//        R.string.pengeluaran
+//    )
 
-    override fun getCount(): Int = tabTitles.size
+    override fun getItemCount(): Int = tabTitles.size
 
-    override fun getItem(position: Int): Fragment {
+    override fun createFragment(position: Int): Fragment {
         var fragment: Fragment? = null
 
         when (position) {
@@ -31,9 +33,5 @@ class HomeViewPagerAdapter(fm: FragmentManager, private val context: Context) :
         }
 
         return fragment as Fragment;
-    }
-
-    override fun getPageTitle(position: Int): CharSequence? {
-        return context.resources.getString(tabTitles[position])
     }
 }

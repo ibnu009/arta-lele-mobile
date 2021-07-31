@@ -9,19 +9,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.findNavController
-import com.google.android.material.snackbar.Snackbar
-import com.ibnu.artalele.R
 import com.ibnu.artalele.data.entities.DebtEntity
 import com.ibnu.artalele.databinding.TambahHutangFragmentBinding
 import com.ibnu.artalele.di.ViewModelFactory
 import com.ibnu.artalele.utils.ArtaLeleHelper
 import com.ibnu.artalele.utils.ConstValue.CALCULATOR_HUTANG
-import com.ibnu.artalele.utils.ConstValue.DEBT_KEPERLUAN_KEY
-import com.ibnu.artalele.utils.ConstValue.DEBT_NAME_KEY
-import com.ibnu.artalele.utils.ConstValue.DEBT_REQUEST_KEY
-import com.ibnu.artalele.utils.ConstValue.DEBT_RESULT_KEY
-import com.ibnu.artalele.utils.ConstValue.KEPERLUAN_HUTANG
-import com.ibnu.artalele.utils.ConstValue.NAMA_PENGHUTANG
+import com.ibnu.artalele.utils.ConstValue.SPENDING_REQUEST_KEY
+import com.ibnu.artalele.utils.ConstValue.SPENDING_RESULT_KEY
 
 class TambahHutangFragment : Fragment() {
 
@@ -49,8 +43,8 @@ class TambahHutangFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setFragmentResultListener(DEBT_REQUEST_KEY) { _, bundle ->
-            total = ArtaLeleHelper.addRupiahToThousandAmountFromString(bundle.getString(DEBT_RESULT_KEY) ?: "0")
+        setFragmentResultListener(SPENDING_REQUEST_KEY) { _, bundle ->
+            total = ArtaLeleHelper.addRupiahToThousandAmountFromString(bundle.getString(SPENDING_RESULT_KEY) ?: "0")
             binding?.tvTotal?.text = total
         }
 
@@ -67,7 +61,7 @@ class TambahHutangFragment : Fragment() {
     private fun initiateButtonFunction() {
 
         binding?.btnSave?.setOnClickListener {
-            saveDebt()
+            saveDebt(it)
         }
 
         binding?.selectTotal?.setOnClickListener { view ->
@@ -79,7 +73,7 @@ class TambahHutangFragment : Fragment() {
         }
     }
 
-    private fun saveDebt() {
+    private fun saveDebt(view : View) {
         val name = binding?.edtNama?.text.toString()
         val keperluan = binding?.edtKeperluan?.text.toString()
         val formattedTotal = total?.let { ArtaLeleHelper.convertStringToNumberOnly(it) }
@@ -89,15 +83,19 @@ class TambahHutangFragment : Fragment() {
                 .show()
         }
 
-        viewModel?.insertDebt(
-            DebtEntity(
-                name = name,
-                amount = formattedTotal ?: 0,
-                startDate = date,
-                dueDate = date,
-                description = keperluan
+        try {
+            viewModel?.insertDebt(
+                DebtEntity(
+                    name = name,
+                    amount = formattedTotal ?: 0,
+                    startDate = date,
+                    dueDate = date,
+                    description = keperluan
+                )
             )
-        )
+        } finally {
+            view.findNavController().popBackStack()
+        }
     }
 
     override fun onDestroy() {
