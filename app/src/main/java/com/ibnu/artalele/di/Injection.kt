@@ -1,15 +1,15 @@
 package com.ibnu.artalele.di
 
 import android.content.Context
-import com.ibnu.artalele.data.dao.CategoryDao
-import com.ibnu.artalele.data.dao.DebtDao
-import com.ibnu.artalele.data.dao.IncomeDao
-import com.ibnu.artalele.data.dao.SpendingDao
+import com.ibnu.artalele.data.dao.*
 import com.ibnu.artalele.data.database.ArtaDatabase
 import com.ibnu.artalele.ui.extra.category.repo.CategoryDataSource
 import com.ibnu.artalele.ui.extra.category.repo.CategoryRepositoryImpl
 import com.ibnu.artalele.ui.home.pemasukan.repo.PemasukanRepositoryImpl
 import com.ibnu.artalele.ui.home.pemasukan.source.IncomeSource
+import com.ibnu.artalele.ui.home.pengeluaran.repo.SpendingRepositoryImpl
+import com.ibnu.artalele.ui.home.pengeluaran.repo.SpendingSource
+import com.ibnu.artalele.ui.home.tambah.TransactionRepositoryImpl
 import com.ibnu.artalele.ui.hutang.repo.BukuHutangRepositoryImpl
 import com.ibnu.artalele.ui.hutang.repo.TambahBukuHutangRepository
 import com.ibnu.artalele.ui.hutang.source.HutangDataSource
@@ -22,6 +22,14 @@ object Injection {
     //    spending Injection
     private fun provideSpendingDao(context: Context): SpendingDao =
         provideDatabase(context).getSpendingDao()
+
+    private fun provideSpendingSource(context: Context): SpendingSource =
+        SpendingSource(provideSpendingDao(context))
+
+    fun provideSpendingRepository(context: Context): SpendingRepositoryImpl =
+        SpendingRepositoryImpl(
+            provideSpendingSource(context)
+        )
 
 
     //    income Injection
@@ -66,6 +74,13 @@ object Injection {
     fun provideCategoryRepository(context: Context): CategoryRepositoryImpl =
         CategoryRepositoryImpl(
             provideCategoryDataSource(context)
+        )
+
+
+    //    Transaction Injection
+    fun provideTransactionRepository(context: Context): TransactionRepositoryImpl =
+        TransactionRepositoryImpl(
+            provideCategoryDao(context), provideIncomeDao(context), provideSpendingDao(context)
         )
 
 }

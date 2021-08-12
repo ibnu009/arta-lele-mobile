@@ -17,8 +17,8 @@ import com.ibnu.artalele.di.ViewModelFactory
 import com.ibnu.artalele.ui.hutang.adapter.BukuHutangAdapter
 import com.ibnu.artalele.utils.ArtaLeleHelper
 import com.ibnu.artalele.utils.RecyclerviewItemClickHandler
-import com.ibnu.artalele.utils.TypeUtils.NEW_DEBT
-import com.ibnu.artalele.utils.TypeUtils.OLD_DEBT
+import com.ibnu.artalele.utils.type.TypeUtils.NEW_DEBT
+import com.ibnu.artalele.utils.type.TypeUtils.OLD_DEBT
 
 class BukuHutangFragment : Fragment() {
 

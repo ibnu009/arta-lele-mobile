@@ -1,15 +1,20 @@
 package com.ibnu.artalele.data.entities
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-@Entity(tableName = "income")
+@Entity(
+    tableName = "income"
+)
+
 data class IncomeEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val date: String,
+    val day: Int,
+    val month: String,
+    val year: Int,
     val weight: String,
     val total: Int,
-    val description: String?
+    val description: String?,
+    @Embedded(prefix = "category")
+    val category: CategoryEntity
 )

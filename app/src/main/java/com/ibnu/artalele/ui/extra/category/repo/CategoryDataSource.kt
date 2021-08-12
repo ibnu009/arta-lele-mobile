@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.ibnu.artalele.data.dao.CategoryDao
 import com.ibnu.artalele.data.entities.CategoryEntity
-import com.ibnu.artalele.utils.TypeUtils
+import com.ibnu.artalele.utils.type.TypeUtils
 
 class CategoryDataSource(private val categoryDao: CategoryDao) {
 

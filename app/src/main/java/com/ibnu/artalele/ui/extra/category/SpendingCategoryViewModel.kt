@@ -14,13 +14,6 @@ import kotlinx.coroutines.withContext
 class SpendingCategoryViewModel(private val repository: CategoryRepositoryImpl) : ViewModel() {
 
     fun getCategories(): LiveData<PagingData<CategoryEntity>> =
-        repository.getCategories(ConstValue.INCOME)
+        repository.getCategories(ConstValue.SPENDING)
 
-    fun deleteCategory(id: Int) {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                repository.deleteCategory(id)
-            }
-        }
-    }
 }

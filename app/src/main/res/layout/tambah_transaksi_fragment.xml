@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +6,10 @@
     android:orientation="vertical"
     android:background="@color/bg_base"
     tools:context=".ui.home.tambah.TambahTransaksiFragment">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_arta_lele3"/>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:orientation="vertical"
@@ -46,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="16dp"
-                        android:text="@string/zero_price"
+                        android:text="@string/zero"
                         android:textSize="26sp" />
 
                 </LinearLayout>
@@ -63,8 +66,7 @@
 
                     <ImageView
                         android:id="@+id/img_category"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp" />
+                        style="@style/ArtaLeleImageTambahStyle"/>
 
                     <TextView
                         android:id="@+id/tv_category"
@@ -88,8 +90,8 @@
                     android:padding="12dp">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp" />
+                        android:src="@drawable/ic_note"
+                        style="@style/ArtaLeleImageTambahStyle" />
 
                     <TextView
                         android:id="@+id/tv_desc"
@@ -113,8 +115,8 @@
                     android:padding="12dp">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp" />
+                        android:src="@drawable/ic_date"
+                        style="@style/ArtaLeleImageTambahStyle"  />
 
                     <TextView
                         android:id="@+id/tv_date"
@@ -132,6 +134,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cv_grand_total"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -156,6 +159,7 @@
                 <TextView
                     android:id="@+id/tv_grand_total"
                     android:textStyle="bold"
+                    android:textColor="@color/green"
                     android:gravity="center_horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

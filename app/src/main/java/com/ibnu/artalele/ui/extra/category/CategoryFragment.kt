@@ -41,7 +41,7 @@ class CategoryFragment : Fragment() {
 
         TabLayoutMediator(binding?.categoryTablayout!!, binding?.categoryViewpager!!){ tab, position ->
             tab.text = context.resources.getString(titles[position])
-        }
+        }.attach()
     }
 
     override fun onDestroy() {

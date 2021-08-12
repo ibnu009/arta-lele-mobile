@@ -24,5 +24,7 @@
     <color name="btn_green20">#408FF17D</color>
     <color name="red">#C52828</color>
     <color name="light_red">#F65656</color>
+    <color name="light_red20">#33F65656</color>
+
 
 </resources>

@@ -30,6 +30,7 @@
                         android:id="@+id/img_trans"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        android:src="@drawable/ic_income"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,7 +39,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="@string/total_pemasukan"
+                        android:text="@string/total_pemasukan_this_month"
                         app:layout_constraintStart_toEndOf="@+id/img_trans"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="@string/total_pemasukan"
+                        android:text="@string/zero_price"
                         app:layout_constraintStart_toEndOf="@+id/img_trans"
                         app:layout_constraintTop_toBottomOf="@+id/tv_total_income_text" />
 
@@ -80,7 +81,7 @@
 
             <TextView
                 android:id="@+id/tx_trans"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cv_container"
                 android:layout_marginHorizontal="16dp"
@@ -88,12 +89,33 @@
                 android:text="@string/list_transaksi"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/btn_all_income"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/cv_container"
+                android:background="@android:color/transparent"
+                android:textAllCaps="false"
+                android:textColor="@color/green"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:layout_marginEnd="16dp"
+                android:text="@string/lihat_semua_catatan"
+                android:layout_height="wrap_content"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_parent_income"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/tx_trans"
                 tools:listitem="@layout/sub_transaction_item" />
+
+            <include
+                android:id="@+id/view_empty"
+                android:visibility="gone"
+                android:layout_below="@id/tx_trans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/empty_view"/>
 
         </RelativeLayout>
 

@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibnu.artalele.databinding.SpendingCategoryFragmentBinding
 import com.ibnu.artalele.di.ViewModelFactory
 import com.ibnu.artalele.ui.extra.category.adapter.CategoryPagingAdapter
+import com.ibnu.artalele.utils.RecyclerviewItemClickHandler
+import com.ibnu.artalele.utils.SharedPreferencesManager
 
 class SpendingCategoryFragment : Fragment() {
 
@@ -23,6 +26,13 @@ class SpendingCategoryFragment : Fragment() {
 
     private var _bindingSpendingCategoryFragment: SpendingCategoryFragmentBinding? = null
     private val binding get() = _bindingSpendingCategoryFragment
+
+    private val itemClick = object: RecyclerviewItemClickHandler {
+        override fun onClickItem(id: Int) {
+            SharedPreferencesManager(requireContext()).setTransactionCategory(id)
+            view?.findNavController()?.popBackStack()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +50,7 @@ class SpendingCategoryFragment : Fragment() {
     }
 
     private fun initiateRecyclerview() {
-        adapter = CategoryPagingAdapter()
+        adapter = CategoryPagingAdapter(itemClick)
         binding?.rvCategorySpending?.adapter = adapter
         binding?.rvCategorySpending?.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

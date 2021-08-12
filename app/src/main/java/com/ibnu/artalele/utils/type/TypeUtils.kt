@@ -1,4 +1,4 @@
-package com.ibnu.artalele.utils
+package com.ibnu.artalele.utils.type
 
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.ibnu.artalele.utils.ConstValue.INCOME

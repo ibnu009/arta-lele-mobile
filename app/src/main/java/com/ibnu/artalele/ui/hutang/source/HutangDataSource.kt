@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.ibnu.artalele.data.dao.DebtDao
 import com.ibnu.artalele.utils.SearchUtils
-import com.ibnu.artalele.utils.TypeUtils
+import com.ibnu.artalele.utils.type.TypeUtils
 
 class HutangDataSource(private val debtDao: DebtDao) {
 

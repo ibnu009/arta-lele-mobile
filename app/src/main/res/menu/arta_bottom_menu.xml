@@ -13,7 +13,7 @@
         android:title="@string/buku_hutang"/>
 
     <item
-        android:id="@+id/settingFragment"
+        android:id="@+id/settingFragment2"
         android:icon="@drawable/ic_settings"
         android:title="@string/setting"/>
 

@@ -1,5 +1,6 @@
 package com.ibnu.artalele.data.entities
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,8 +8,11 @@ import androidx.room.PrimaryKey
 data class SpendingEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val date: String,
+    val day: Int,
+    val month: String,
+    val year: Int,
     val total: Int,
-    val category: String,
-    val description: String
+    val description: String?,
+    @Embedded(prefix = "category")
+    val category: CategoryEntity
 )

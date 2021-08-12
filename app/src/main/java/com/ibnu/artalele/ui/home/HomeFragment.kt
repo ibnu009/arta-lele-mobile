@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ibnu.artalele.R
 import com.ibnu.artalele.databinding.HomeFragmentBinding
+import com.ibnu.artalele.utils.SharedPreferencesManager
 
 class HomeFragment : Fragment() {
 
@@ -50,10 +51,10 @@ class HomeFragment : Fragment() {
         }.attach()
     }
 
-
     private fun initiateButton() {
         binding?.fabAddTransaction?.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_tambahTransaksiFragment)
+            SharedPreferencesManager(requireContext()).resetTransactionSegment()
         }
     }
 

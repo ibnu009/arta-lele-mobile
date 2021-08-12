@@ -85,8 +85,11 @@ dependencies {
     //    Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3'
 
-    // Calculator
+    //    Calculator
     implementation 'net.objecthunter:exp4j:0.4.8'
+
+    //    Circular Image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     //    Room
     def room_version = "2.3.0"

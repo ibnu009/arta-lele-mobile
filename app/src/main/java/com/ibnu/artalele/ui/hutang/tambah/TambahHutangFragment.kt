@@ -14,6 +14,8 @@ import com.ibnu.artalele.databinding.TambahHutangFragmentBinding
 import com.ibnu.artalele.di.ViewModelFactory
 import com.ibnu.artalele.utils.ArtaLeleHelper
 import com.ibnu.artalele.utils.ConstValue.CALCULATOR_HUTANG
+import com.ibnu.artalele.utils.ConstValue.DEBT_REQUEST_KEY
+import com.ibnu.artalele.utils.ConstValue.DEBT_RESULT_KEY
 import com.ibnu.artalele.utils.ConstValue.SPENDING_REQUEST_KEY
 import com.ibnu.artalele.utils.ConstValue.SPENDING_RESULT_KEY
 
@@ -35,16 +37,16 @@ class TambahHutangFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _bindingTambahHutangFragment =
-            TambahHutangFragmentBinding.inflate(inflater, container, false)
+        _bindingTambahHutangFragment = TambahHutangFragmentBinding.inflate(inflater, container, false)
         return _bindingTambahHutangFragment?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setFragmentResultListener(SPENDING_REQUEST_KEY) { _, bundle ->
-            total = ArtaLeleHelper.addRupiahToThousandAmountFromString(bundle.getString(SPENDING_RESULT_KEY) ?: "0")
+        setFragmentResultListener(DEBT_REQUEST_KEY) { _, bundle ->
+            total = ArtaLeleHelper.addRupiahToThousandAmountFromString(bundle.getString(
+                DEBT_RESULT_KEY) ?: "0")
             binding?.tvTotal?.text = total
         }
 

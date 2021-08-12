@@ -9,9 +9,19 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.findNavController
 import com.ibnu.artalele.databinding.FragmentCalculatorBinding
+import com.ibnu.artalele.utils.ArtaLeleHelper
+import com.ibnu.artalele.utils.ConstValue.CALCULATOR_HUTANG
+import com.ibnu.artalele.utils.ConstValue.CALCULATOR_INCOME
+import com.ibnu.artalele.utils.ConstValue.CALCULATOR_SPENDING
 import com.ibnu.artalele.utils.ConstValue.DEBT_REQUEST_KEY
 import com.ibnu.artalele.utils.ConstValue.DEBT_RESULT_KEY
+import com.ibnu.artalele.utils.ConstValue.INCOME_REQUEST_KEY
+import com.ibnu.artalele.utils.ConstValue.INCOME_RESULT_KEY
+import com.ibnu.artalele.utils.ConstValue.SPENDING_REQUEST_KEY
+import com.ibnu.artalele.utils.ConstValue.SPENDING_RESULT_KEY
+import com.ibnu.artalele.utils.SharedPreferencesManager
 import net.objecthunter.exp4j.ExpressionBuilder
+import timber.log.Timber
 
 class CalculatorFragment : Fragment() {
 
@@ -19,6 +29,7 @@ class CalculatorFragment : Fragment() {
     private var realResult = 0.0
     private var isNew: Boolean = true
     private var isComma: Boolean = false
+
 
     private var _calculatorFragment: FragmentCalculatorBinding? = null
     private val binding get() = _calculatorFragment
@@ -33,22 +44,23 @@ class CalculatorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val safeArgs = arguments?.let { CalculatorFragmentArgs.fromBundle(it) }
 
         numberClickEvent()
-        initiateToolbar(safeArgs?.passToolbarName)
+        initiateToolbar(safeArgs?.passToolbarName ?: "-")
 
     }
 
-    private fun initiateToolbar(title: String?) {
+    private fun initiateToolbar(title: String) {
         binding?.toolbarCalculator?.tvToolbarTitle?.text = title
 
         binding?.toolbarCalculator?.btnSave?.setOnClickListener {
-            saveTotal(it)
+            saveTotal(it, title)
         }
 
         binding?.btnGo?.setOnClickListener {
-            saveTotal(it)
+            saveTotal(it, title)
         }
 
         binding?.toolbarCalculator?.imgBack?.setOnClickListener {
@@ -153,18 +165,41 @@ class CalculatorFragment : Fragment() {
         }
     }
 
-    private fun saveTotal(view: View) {
+    private fun saveTotal(view: View, type: String) {
         val expressionText = binding?.tvExpression?.text.toString()
         val resultText = binding?.tvResult?.text.toString()
 
         if (resultText.isEmpty() || resultText.isBlank()) {
-            setFragmentResult(DEBT_REQUEST_KEY, bundleOf(DEBT_RESULT_KEY to expressionText))
-            view.findNavController().popBackStack()
+            validateSaveTotal(expressionText, type)
         } else {
-            setFragmentResult(DEBT_REQUEST_KEY, bundleOf(DEBT_RESULT_KEY to resultText))
-            view.findNavController().popBackStack()
+            validateSaveTotal(resultText, type)
         }
+    }
 
+    private fun validateSaveTotal(result: String, type: String){
+        val saver = SharedPreferencesManager(requireContext())
+        val helper = ArtaLeleHelper
+        when (type) {
+            CALCULATOR_INCOME -> {
+                val weight = helper.convertStringToLong(result)
+                saver.setTransactionWeight(weight)
+                saver.deleteResult()
+                view?.findNavController()?.popBackStack()
+            }
+            CALCULATOR_SPENDING -> {
+                val spending = helper.convertStringToNumberOnly(result)
+                saver.setTransactionResult(spending)
+                saver.deleteWeight()
+                view?.findNavController()?.popBackStack()
+            }
+            CALCULATOR_HUTANG -> {
+                setFragmentResult(DEBT_REQUEST_KEY, bundleOf(DEBT_RESULT_KEY to result))
+                view?.findNavController()?.popBackStack()
+            }
+            else -> {
+                Timber.e("Unkown type")
+            }
+        }
     }
 
     private fun appendNumberAndDisplay(value: String, canClear: Boolean) {
