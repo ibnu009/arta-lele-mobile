@@ -1,5 +1,6 @@
 package com.ibnu.artalele.ui.extra
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,10 +16,6 @@ import com.ibnu.artalele.utils.ConstValue.CALCULATOR_INCOME
 import com.ibnu.artalele.utils.ConstValue.CALCULATOR_SPENDING
 import com.ibnu.artalele.utils.ConstValue.DEBT_REQUEST_KEY
 import com.ibnu.artalele.utils.ConstValue.DEBT_RESULT_KEY
-import com.ibnu.artalele.utils.ConstValue.INCOME_REQUEST_KEY
-import com.ibnu.artalele.utils.ConstValue.INCOME_RESULT_KEY
-import com.ibnu.artalele.utils.ConstValue.SPENDING_REQUEST_KEY
-import com.ibnu.artalele.utils.ConstValue.SPENDING_RESULT_KEY
 import com.ibnu.artalele.utils.SharedPreferencesManager
 import net.objecthunter.exp4j.ExpressionBuilder
 import timber.log.Timber
@@ -47,9 +44,10 @@ class CalculatorFragment : Fragment() {
 
         val safeArgs = arguments?.let { CalculatorFragmentArgs.fromBundle(it) }
 
-        numberClickEvent()
-        initiateToolbar(safeArgs?.passToolbarName ?: "-")
+        val toolbarName = safeArgs?.passToolbarName ?: "-"
 
+        numberClickEvent(toolbarName)
+        initiateToolbar(toolbarName)
     }
 
     private fun initiateToolbar(title: String) {
@@ -68,7 +66,7 @@ class CalculatorFragment : Fragment() {
         }
     }
 
-    private fun numberClickEvent() {
+    private fun numberClickEvent(type: String) {
         if (isNew) {
             total = ""
             binding?.tvResult?.text = total
@@ -141,12 +139,13 @@ class CalculatorFragment : Fragment() {
             val expression = ExpressionBuilder(binding?.tvExpression?.text.toString()).build()
             val result = expression.evaluate()
             val longResult = result.toLong()
-            if (result == longResult.toDouble()) {
+
+            if (type == CALCULATOR_INCOME) {
                 realResult = result
                 binding?.tvResult?.text = result.toString()
             } else {
                 realResult = result
-                binding?.tvResult?.text = result.toString()
+                binding?.tvResult?.text = result.toInt().toString()
             }
             binding?.btnEqual?.visibility = View.GONE
         }
@@ -181,16 +180,26 @@ class CalculatorFragment : Fragment() {
         val helper = ArtaLeleHelper
         when (type) {
             CALCULATOR_INCOME -> {
-                val weight = helper.convertStringToLong(result)
+                val weight = helper.convertStringToFloat(result)
                 saver.setTransactionWeight(weight)
                 saver.deleteResult()
                 view?.findNavController()?.popBackStack()
             }
             CALCULATOR_SPENDING -> {
                 val spending = helper.convertStringToNumberOnly(result)
-                saver.setTransactionResult(spending)
-                saver.deleteWeight()
-                view?.findNavController()?.popBackStack()
+                if (spending < 999999999){
+                    saver.setTransactionResult(spending)
+                    saver.deleteWeight()
+                    view?.findNavController()?.popBackStack()
+                } else {
+                    val dialogBuilder = AlertDialog.Builder(requireContext()).apply {
+                        setTitle("Angka Melebihi batas")
+                        setMessage("Nilai yang anda masukkan melebihi batas")
+                        setNegativeButton("OK") { p0, _ -> p0.dismiss() }
+                    }
+                    dialogBuilder.create().show()
+                }
+
             }
             CALCULATOR_HUTANG -> {
                 setFragmentResult(DEBT_REQUEST_KEY, bundleOf(DEBT_RESULT_KEY to result))

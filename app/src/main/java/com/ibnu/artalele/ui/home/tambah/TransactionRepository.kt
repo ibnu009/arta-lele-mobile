@@ -11,4 +11,17 @@ interface TransactionRepository {
     suspend fun insertIncome(incomeEntity: IncomeEntity)
 
     suspend fun insertSpending(spendingEntity: SpendingEntity)
+
+    suspend fun updateIncome(incomeEntity: IncomeEntity)
+
+    suspend fun updateSpending(spendingEntity: SpendingEntity)
+
+    suspend fun getAnnualIncomeChartData(year: Int): List<Float>
+
+    suspend fun getAnnualSpendingChartData(year: Int): List<Float>
+
+    suspend fun getAnnualIncomeTotal(year: Int): Int
+
+    suspend fun getAnnualSpendingTotal(year: Int): Int
+
 }

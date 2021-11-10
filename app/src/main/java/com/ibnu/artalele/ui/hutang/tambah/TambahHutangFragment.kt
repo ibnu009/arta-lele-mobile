@@ -16,12 +16,15 @@ import com.ibnu.artalele.utils.ArtaLeleHelper
 import com.ibnu.artalele.utils.ConstValue.CALCULATOR_HUTANG
 import com.ibnu.artalele.utils.ConstValue.DEBT_REQUEST_KEY
 import com.ibnu.artalele.utils.ConstValue.DEBT_RESULT_KEY
-import com.ibnu.artalele.utils.ConstValue.SPENDING_REQUEST_KEY
-import com.ibnu.artalele.utils.ConstValue.SPENDING_RESULT_KEY
+import java.util.*
 
 class TambahHutangFragment : Fragment() {
 
     private var date = ""
+    private var startDate: Date? = null
+    private var dueDate: Date? = null
+
+    private val calendar: Calendar = Calendar.getInstance()
 
     private var total: String? = null
 
@@ -37,7 +40,8 @@ class TambahHutangFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _bindingTambahHutangFragment = TambahHutangFragmentBinding.inflate(inflater, container, false)
+        _bindingTambahHutangFragment =
+            TambahHutangFragmentBinding.inflate(inflater, container, false)
         return _bindingTambahHutangFragment?.root
     }
 
@@ -45,8 +49,11 @@ class TambahHutangFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setFragmentResultListener(DEBT_REQUEST_KEY) { _, bundle ->
-            total = ArtaLeleHelper.addRupiahToThousandAmountFromString(bundle.getString(
-                DEBT_RESULT_KEY) ?: "0")
+            total = ArtaLeleHelper.addRupiahToThousandAmountFromString(
+                bundle.getString(
+                    DEBT_RESULT_KEY
+                ) ?: "0"
+            )
             binding?.tvTotal?.text = total
         }
 
@@ -57,6 +64,7 @@ class TambahHutangFragment : Fragment() {
 
     private fun initiateView() {
         date = ArtaLeleHelper.getTodayDate()
+        startDate = calendar.time
         binding?.tvDate?.text = date
     }
 
@@ -73,9 +81,38 @@ class TambahHutangFragment : Fragment() {
                 )
             view.findNavController().navigate(action)
         }
+
     }
 
-    private fun saveDebt(view : View) {
+    private fun saveDebt(view: View) {
+        var isBillable = true
+        when (binding?.spinnerDueDuration?.selectedItemPosition) {
+            0 -> {
+                isBillable = false
+            }
+            1 -> {
+                addDueDurationToTodayDate(3)
+            }
+            2 -> {
+                addDueDurationToTodayDate(7)
+            }
+            3 -> {
+                addDueDurationToTodayDate(14)
+
+            }
+            4 -> {
+                addDueDurationToTodayDate(30)
+
+            }
+            5 -> {
+                addDueDurationToTodayDate(30 * 2)
+            }
+            6 -> {
+                addDueDurationToTodayDate(30 * 3)
+            }
+
+        }
+
         val name = binding?.edtNama?.text.toString()
         val keperluan = binding?.edtKeperluan?.text.toString()
         val formattedTotal = total?.let { ArtaLeleHelper.convertStringToNumberOnly(it) }
@@ -90,15 +127,23 @@ class TambahHutangFragment : Fragment() {
                 DebtEntity(
                     name = name,
                     amount = formattedTotal ?: 0,
-                    startDate = date,
-                    dueDate = date,
-                    description = keperluan
+                    startDate = startDate,
+                    dueDate = dueDate,
+                    description = keperluan,
+                    isBillable = isBillable,
+                    isPaidOff = false
                 )
             )
         } finally {
             view.findNavController().popBackStack()
         }
     }
+
+    private fun addDueDurationToTodayDate(dayDuration: Int) {
+        calendar.add(Calendar.DAY_OF_YEAR, dayDuration)
+        dueDate = calendar.time
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

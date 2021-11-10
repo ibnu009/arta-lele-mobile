@@ -19,6 +19,15 @@
         <action
             android:id="@+id/action_homeFragment_to_detailSpendingFragment"
             app:destination="@id/detailSpendingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_allSpendingFragment"
+            app:destination="@id/allSpendingFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_allIncomeFragment"
+            app:destination="@id/allIncomeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
     </fragment>
     <fragment
         android:id="@+id/tambahTransaksiFragment"
@@ -34,6 +43,30 @@
         <action
             android:id="@+id/action_tambahTransaksiFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <argument
+            android:name="isEdit"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="passTotal"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="passWeight"
+            app:argType="string"
+            android:defaultValue="0kg" />
+        <argument
+            android:name="passDescription"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="passDate"
+            app:argType="string"
+            android:defaultValue='""' />
+        <argument
+            android:name="passCategoryId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/bukuHutangFragment"
@@ -139,6 +172,9 @@
             android:name="passId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_detailIncomeFragment_to_tambahTransaksiFragment"
+            app:destination="@id/tambahTransaksiFragment" />
     </fragment>
     <fragment
         android:id="@+id/iconsFragment"
@@ -163,10 +199,36 @@
             android:name="passid"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_detailSpendingFragment_to_tambahTransaksiFragment"
+            app:destination="@id/tambahTransaksiFragment" />
     </fragment>
     <fragment
         android:id="@+id/basePriceFragment"
         android:name="com.ibnu.artalele.ui.setting.price.BasePriceFragment"
         android:label="fragment_base_price"
         tools:layout="@layout/fragment_base_price" />
+    <fragment
+        android:id="@+id/allSpendingFragment"
+        android:name="com.ibnu.artalele.ui.home.pengeluaran.all.AllSpendingFragment"
+        android:label="all_spending_fragment"
+        tools:layout="@layout/all_spending_fragment" >
+        <action
+            android:id="@+id/action_allSpendingFragment_to_detailSpendingFragment"
+            app:destination="@id/detailSpendingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allIncomeFragment"
+        android:name="com.ibnu.artalele.ui.home.pemasukan.all.AllIncomeFragment"
+        android:label="fragment_all_income"
+        tools:layout="@layout/fragment_all_income" >
+        <action
+            android:id="@+id/action_allIncomeFragment_to_detailIncomeFragment"
+            app:destination="@id/detailIncomeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportFragment"
+        android:name="com.ibnu.artalele.ui.home.report.ReportFragment"
+        android:label="report_fragment"
+        tools:layout="@layout/report_fragment" />
 </navigation>

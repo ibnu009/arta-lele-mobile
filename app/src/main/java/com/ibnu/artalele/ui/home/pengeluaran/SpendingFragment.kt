@@ -49,6 +49,7 @@ class SpendingFragment : Fragment() {
 
         initiateRecyclerview()
         initiateData()
+        initiateButtons()
     }
 
     private fun initiateRecyclerview() {
@@ -79,6 +80,18 @@ class SpendingFragment : Fragment() {
             ?.observe(viewLifecycleOwner, Observer { total ->
                 binding?.tvTotalSpending?.text = ArtaLeleHelper.addRupiahToAmount(total)
             })
+    }
+
+    private fun initiateButtons() {
+        binding?.viewEmpty?.btnSemuaLaporan?.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_allSpendingFragment)
+        }
+        binding?.btnAllSpending?.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_allSpendingFragment)
+        }
+        binding?.btnLaporan?.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_reportFragment)
+        }
     }
 
     private fun showEmptyItemView(isShow: Boolean) {

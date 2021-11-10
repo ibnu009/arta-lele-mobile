@@ -30,6 +30,7 @@ import java.util.*
 
 class TambahTransaksiFragment : Fragment() {
 
+    private var isEdit = false
     private var category = ""
     private var formattedWeight = ""
     private var grandTotal: Int = 0
@@ -57,9 +58,7 @@ class TambahTransaksiFragment : Fragment() {
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             showDate(calendar)
-
         }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,8 +82,29 @@ class TambahTransaksiFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initiateButtons()
-        initiateViews()
+        val safeArgs = arguments?.let { TambahTransaksiFragmentArgs.fromBundle(it) }
+        isEdit = safeArgs?.isEdit ?: false
+        val fTotal = safeArgs?.passTotal
+        val fWeight = safeArgs?.passWeight
+        val fDescription = safeArgs?.passDescription
+        val fDate = safeArgs?.passDate
+        val fCategoryId = safeArgs?.passCategoryId
+
+        if (isEdit) {
+            if (fCategoryId == 0) {
+                Timber.d("KOSONG")
+            } else {
+                initiateCategory(fCategoryId ?: 0, ArtaLeleHelper.addRupiahToAmount(fTotal ?: 0))
+            }
+            Timber.d("Test id = $fCategoryId, date = $fDate,description = $fTotal")
+            binding?.tvDate?.text = fDate
+            binding?.tvDesc?.text = fDescription
+            initiateButtons()
+        } else {
+            initiateButtons()
+            initiateViews()
+            initiateDescriptionView()
+        }
     }
 
     private fun initiateButtons() {
@@ -122,13 +142,17 @@ class TambahTransaksiFragment : Fragment() {
                 .navigate(R.id.action_tambahTransaksiFragment_to_deskriptionFragment)
         }
 
-        binding?.toolbar?.btnSave?.setOnClickListener {
+        binding?.toolbar?.imgBack?.setOnClickListener {
+            onCancelTransaction()
+        }
 
+        binding?.toolbar?.btnSave?.setOnClickListener {
             val day = ArtaLeleHelper.getDayFromDate(date)
             val month = ArtaLeleHelper.getMonthFromDate(date)
             val year = ArtaLeleHelper.getYearFromDate(date)
 
             val transactionCategory = CategoryEntity(
+                categoryId = categoryId,
                 categoryGroup = category,
                 categoryImage = categoryImage,
                 categoryName = categoryName
@@ -162,8 +186,6 @@ class TambahTransaksiFragment : Fragment() {
                 view?.findNavController()?.popBackStack()
             }
         }
-
-
     }
 
     private fun initiateViews() {
@@ -173,30 +195,34 @@ class TambahTransaksiFragment : Fragment() {
             binding?.tvCategory?.text =
                 requireContext().resources.getString(R.string.tambah_kategori_baru)
         } else {
-            viewModel?.getCategory(categoryId)?.observe(viewLifecycleOwner, Observer { it ->
-                binding?.tvCategory?.text = it.categoryName
-                binding?.imgCategory?.setImageResource(it.categoryImage)
-                category = it.categoryGroup
-                categoryName = it.categoryName
-                categoryImage = it.categoryImage
-            })
+            initiateCategory(categoryId, null)
         }
+        this.date = SharedPreferencesManager(requireContext()).getTransDate ?: ""
+        binding?.tvDate?.text = date
+    }
 
+    private fun initiateCategory(idCategory: Int, mAmount: String?) {
+        viewModel?.getCategory(idCategory)?.observe(viewLifecycleOwner, Observer {
+            binding?.tvCategory?.text = it.categoryName
+            binding?.imgCategory?.setImageResource(it.categoryImage)
+            category = it.categoryGroup
+            categoryName = it.categoryName
+            categoryImage = it.categoryImage
+            if (it.categoryGroup == INCOME) {
+                isShowIncomeView(true)
+            } else {
+                isShowIncomeView(false)
+            }
+            setCalculatorResult(mAmount)
+        })
+    }
+
+    private fun initiateDescriptionView() {
         viewModel?.getDescription(requireContext())?.observe(viewLifecycleOwner, Observer {
             binding?.tvDesc?.text = it
-            description = it
+            this.description = it
             Timber.d("checking description $it")
         })
-
-        date = SharedPreferencesManager(requireContext()).getTransDate ?: ""
-        binding?.tvDate?.text = date
-
-        setCalculatorResult()
-        if (category == INCOME) {
-            isShowIncomeView(true)
-        } else {
-            isShowIncomeView(false)
-        }
     }
 
     private fun isShowIncomeView(isIncome: Boolean) {
@@ -219,39 +245,42 @@ class TambahTransaksiFragment : Fragment() {
         }
     }
 
-    private fun setCalculatorResult() {
+    private fun setCalculatorResult(amount: String?) {
+        val weight = SharedPreferencesManager(requireContext()).getTransWeight
+        totalSpending = SharedPreferencesManager(requireContext()).getTransResult
         if (category == INCOME) {
-            binding?.tvTotalOrWeight?.text = "0"
-            val weight = SharedPreferencesManager(requireContext()).getTransWeight
-            formattedWeight = ArtaLeleHelper.addKgToWeight(weight)
-            binding?.tvTotalOrWeight?.text = formattedWeight
-            binding?.tvGrandTotal?.text = calculateGrandTotal(weight)
+            binding?.tvTotalOrWeight?.text = amount ?: "0"
+            if (weight != 0f) {
+                formattedWeight = ArtaLeleHelper.addKgToWeight(weight)
+                binding?.tvTotalOrWeight?.text = formattedWeight
+                binding?.tvGrandTotal?.text = calculateGrandTotal(weight)
+            }
         } else {
-            binding?.tvTotalOrWeight?.text = "0"
-            totalSpending = SharedPreferencesManager(requireContext()).getTransResult
+            binding?.tvTotalOrWeight?.text = amount ?: "0"
             val formattedAmount = ArtaLeleHelper.addRupiahToAmount(totalSpending)
-            binding?.tvTotalOrWeight?.text = formattedAmount
+            if (totalSpending != 0) {
+                binding?.tvTotalOrWeight?.text = formattedAmount
+            }
         }
     }
 
-
     private fun onCancelTransaction() {
-        AlertDialog.Builder(requireContext()).apply {
+        val dialogBuilder = android.app.AlertDialog.Builder(requireContext()).apply {
             setTitle("Batalkan Transaksi")
-            setMessage("Apakah anda yakin untuk membatalkan?")
-            setNegativeButton("Tidak") { p0, _ ->
-                p0.dismiss()
-            }
-            setPositiveButton("IYA") { _, _ ->
+            setMessage("Apakah Anda yakin untuk membatalkan?")
+            setNegativeButton("TIDAK") { p0, _ -> p0.dismiss() }
+            setPositiveButton("IYA") { p0, _ ->
                 SharedPreferencesManager(requireContext()).resetTransactionSegment()
                 view?.findNavController()?.popBackStack()
+                p0.dismiss()
             }
-        }.create().show()
+        }
+        dialogBuilder.create().show()
     }
 
-    private fun calculateGrandTotal(weight: Long): String {
+    private fun calculateGrandTotal(weight: Float): String {
         val basePrice = SharedPreferencesManager(requireContext()).getPrice
-        grandTotal = (basePrice * weight).toInt()
+        grandTotal = ((basePrice * weight).toInt())
 
         Timber.d("check grand total $grandTotal")
 

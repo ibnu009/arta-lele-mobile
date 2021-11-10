@@ -37,7 +37,11 @@ class BukuHutangAdapter(private val onClickAction: RecyclerviewItemClickHandler)
             binding.tvName.text = debt.name
             val formattedAmount = ArtaLeleHelper.addRupiahToAmount(debt.amount)
             binding.tvValue.text = formattedAmount
-            binding.tvDate.text = debt.startDate
+            binding.tvDate.text = debt.startDate?.let {
+                ArtaLeleHelper.convertDateToString(
+                    it
+                )
+            }
         }
     }
 

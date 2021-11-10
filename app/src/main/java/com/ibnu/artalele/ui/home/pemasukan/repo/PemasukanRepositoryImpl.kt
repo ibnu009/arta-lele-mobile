@@ -10,16 +10,16 @@ import kotlinx.coroutines.withContext
 
 class PemasukanRepositoryImpl(private val incomeSource: IncomeSource) : PemasukanRepository {
 
-    override fun getListIncome(): LiveData<PagingData<IncomeEntity>> =
-        incomeSource.getIncomes()
+    override fun getListIncome(month: String, year: Int): LiveData<PagingData<IncomeEntity>> =
+        incomeSource.getIncomes(month, year)
 
     override fun get15Incomes(day: Int, month: String): LiveData<PagingData<IncomeEntity>> =
         incomeSource.get15NewestIncomes(day, month)
 
-    override suspend fun getThisMonthIncomeTotal(month: String): Int {
+    override suspend fun getThisMonthIncomeTotal(month: String, year: Int): Int {
         var total = 0
         withContext(Dispatchers.Default) {
-            val listIncome = incomeSource.getThisMonthIncomeTotal(month)
+            val listIncome = incomeSource.getThisMonthIncomeTotal(month, year)
             for (i in listIncome) {
                 total += i
             }

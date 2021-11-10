@@ -15,9 +15,6 @@ object ConstValue {
     const val KEY_TRANSACTION_DATE = "key.date"
 
 
-
-
-
     //    Request Keys
     const val DEBT_REQUEST_KEY = "debt.request.key"
     const val INCOME_REQUEST_KEY = "income.request.key"
@@ -38,4 +35,19 @@ object ConstValue {
     const val CALCULATOR_SPENDING = "Nominal Pengeluaran"
     const val CALCULATOR_HUTANG = "Nominal Hutang"
 
+
+    val titles = listOf(
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    )
 }

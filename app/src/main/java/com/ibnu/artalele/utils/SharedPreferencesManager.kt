@@ -43,8 +43,8 @@ class SharedPreferencesManager(context: Context) {
         editor.apply()
     }
 
-    fun setTransactionWeight(value: Long){
-        editor.putLong(KEY_TRANSACTION_WEIGHT, value)
+    fun setTransactionWeight(value: Float){
+        editor.putFloat(KEY_TRANSACTION_WEIGHT, value)
         editor.apply()
     }
 
@@ -70,11 +70,11 @@ class SharedPreferencesManager(context: Context) {
 
     val getTransCategory = prefs.getInt(KEY_TRANSACTION_CATEGORY, 0)
 
-    val getTransDesc = prefs.getString(KEY_TRANSACTION_NOTE, defaultDesc)
+    val getTransDesc = prefs.getString(KEY_TRANSACTION_NOTE, "")
 
     val getTransResult = prefs.getInt(KEY_TRANSACTION_RESULT, 0)
 
-    val getTransWeight = prefs.getLong(KEY_TRANSACTION_WEIGHT, 0)
+    val getTransWeight = prefs.getFloat(KEY_TRANSACTION_WEIGHT, 0f)
 
     val getTransDate = prefs.getString(KEY_TRANSACTION_DATE, "Hari ini")
 

@@ -53,12 +53,13 @@ class IncomeFragment : Fragment() {
 
         initiateRecyclerview()
         initiateData()
+        initiateButtons()
     }
 
     private fun initiateRecyclerview() {
         adapter = IncomeAdapter(onClick)
         adapter.addLoadStateListener { loadState ->
-            if(loadState.append.endOfPaginationReached) {
+            if (loadState.append.endOfPaginationReached) {
                 if (adapter.itemCount < 1) {
                     showEmptyItemView(true)
                 } else {
@@ -74,17 +75,31 @@ class IncomeFragment : Fragment() {
     private fun initiateData() {
         val day = ArtaLeleHelper.getCurrentDay()
         val month = ArtaLeleHelper.getCurrentMonth()
+        val year = ArtaLeleHelper.getCurrentYear()
 
         viewModel?.getNewestIncome(day, month)?.observe(viewLifecycleOwner, Observer {
             adapter.submitData(lifecycle, it)
         })
-        getTotalIncomeThisMonth(month)
+        getTotalIncomeThisMonth(month, year)
     }
 
-    private fun getTotalIncomeThisMonth(month: String) {
-        viewModel?.getIncomeTotal(month = month)?.observe(viewLifecycleOwner, Observer { total ->
-            binding?.tvTotalIncome?.text = ArtaLeleHelper.addRupiahToAmount(total)
-        })
+    private fun getTotalIncomeThisMonth(month: String, year: Int) {
+        viewModel?.getIncomeTotal(month = month, year)
+            ?.observe(viewLifecycleOwner, Observer { total ->
+                binding?.tvTotalIncome?.text = ArtaLeleHelper.addRupiahToAmount(total)
+            })
+    }
+
+    private fun initiateButtons() {
+        binding?.viewEmpty?.btnSemuaLaporan?.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_allIncomeFragment)
+        }
+        binding?.btnAllIncome?.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_allIncomeFragment)
+        }
+        binding?.btnLaporan?.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_homeFragment_to_reportFragment)
+        }
     }
 
     private fun showEmptyItemView(isShow: Boolean) {
@@ -92,11 +107,17 @@ class IncomeFragment : Fragment() {
             binding?.rvParentIncome?.visibility = View.GONE
             binding?.btnAllIncome?.visibility = View.GONE
             binding?.viewEmpty?.root?.visibility = View.VISIBLE
-            binding?.viewEmpty?.tvEmpty?.text = getString(R.string.empty_transaksi_text, INCOME, INCOME, INCOME)
+            binding?.viewEmpty?.tvEmpty?.text =
+                getString(R.string.empty_transaksi_text, INCOME, INCOME, INCOME)
         } else {
             binding?.rvParentIncome?.visibility = View.VISIBLE
             binding?.btnAllIncome?.visibility = View.VISIBLE
             binding?.viewEmpty?.root?.visibility = View.GONE
         }
-     }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _bindingIncomeFragment = null
+    }
 }

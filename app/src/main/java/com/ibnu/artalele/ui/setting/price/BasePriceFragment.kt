@@ -30,7 +30,7 @@ class BasePriceFragment : Fragment(), View.OnClickListener {
 
         binding?.toolbar?.imgBack?.setOnClickListener(this)
         binding?.toolbar?.btnSave?.setOnClickListener(this)
-        binding?.toolbar?.tvToolbarTitle?.text = "Base Harga"
+        binding?.toolbar?.tvToolbarTitle?.text = "Pengaturan Base Harga"
         binding?.tvCurrentPrice?.text =
             ArtaLeleHelper.addRupiahToAmount(SharedPreferencesManager(requireContext()).getPrice)
     }

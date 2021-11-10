@@ -31,7 +31,11 @@ class TambahTransaksiViewModel(private val transactionRepository: TransactionRep
     fun getDescription(context: Context): LiveData<String> {
         val resultDescription = MutableLiveData<String>()
         val desc = SharedPreferencesManager(context).getTransDesc
-        resultDescription.postValue(desc ?: "Pilih Kategori")
+        if (desc.isNullOrEmpty()) {
+            resultDescription.postValue("Pilih Deskripsi")
+        } else {
+            resultDescription.postValue(desc ?: "Pilih Kategori")
+        }
         return resultDescription
     }
 
@@ -45,5 +49,9 @@ class TambahTransaksiViewModel(private val transactionRepository: TransactionRep
         viewModelScope.launch {
             transactionRepository.insertSpending(spending)
         }
+    }
+
+    fun updateIncomeTransaction(income: IncomeEntity){
+
     }
 }

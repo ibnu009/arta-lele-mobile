@@ -58,6 +58,11 @@ class HomeFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        initiateViewPager(requireContext())
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _bindingHomeFragment = null

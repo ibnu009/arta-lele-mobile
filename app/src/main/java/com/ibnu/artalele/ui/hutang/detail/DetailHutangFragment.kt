@@ -47,7 +47,7 @@ class DetailHutangFragment : Fragment() {
 
     private fun initiateData(id: Int) {
         viewModel?.getDebtId(id)?.observe(viewLifecycleOwner, Observer { debt ->
-            binding?.tvDate?.text = debt.startDate
+            binding?.tvDate?.text = debt.startDate?.let { ArtaLeleHelper.convertDateToString(it) }
             val formattedAmount = ArtaLeleHelper.addRupiahToAmount(debt.amount)
             binding?.tvTotal?.text = formattedAmount
             binding?.tvKeperluan?.text = debt.description

@@ -76,15 +76,33 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ArtaLeleAmountNeutralTextStyleSmaller">
+        <item name="android:textColor">@color/darkGrey</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="ArtaLeleAmountPositiveTextStyleSmaller">
         <item name="android:textColor">@color/equalButton</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ArtaLeleAmountPositiveTextStyleSmallest">
+        <item name="android:textColor">@color/equalButton</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="ArtaLeleAmountNegativeTextStyleSmaller">
         <item name="android:textColor">@color/light_red</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ArtaLeleAmountNegativeTextStyleSmallest">
+        <item name="android:textColor">@color/light_red</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 

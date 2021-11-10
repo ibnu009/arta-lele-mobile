@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ibnu.artalele.data.dao.*
 import com.ibnu.artalele.data.entities.CategoryEntity
@@ -12,7 +13,9 @@ import com.ibnu.artalele.data.entities.IncomeEntity
 import com.ibnu.artalele.data.entities.SpendingEntity
 import com.ibnu.artalele.data.entities.fts.DebtFTS
 import com.ibnu.artalele.utils.ConstValue.DATABASE_NAME
+import com.ibnu.artalele.utils.converter.DateTypeConverter
 
+@TypeConverters(DateTypeConverter::class)
 @Database(
     entities = [
         IncomeEntity::class,
@@ -58,7 +61,5 @@ abstract class ArtaDatabase : RoomDatabase() {
             }
             return INSTANCE as ArtaDatabase
         }
-
     }
-
 }

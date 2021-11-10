@@ -5,10 +5,10 @@ import androidx.paging.PagingData
 import com.ibnu.artalele.data.entities.IncomeEntity
 
 interface PemasukanRepository {
-    fun getListIncome(): LiveData<PagingData<IncomeEntity>>
+    fun getListIncome(month: String, year: Int): LiveData<PagingData<IncomeEntity>>
     fun get15Incomes(day: Int, month: String): LiveData<PagingData<IncomeEntity>>
 
-    suspend fun getThisMonthIncomeTotal(month: String): Int
+    suspend fun getThisMonthIncomeTotal(month: String, year: Int): Int
     suspend fun getIncomeById(id: Int): IncomeEntity
     suspend fun deleteIncome(id: Int)
 }

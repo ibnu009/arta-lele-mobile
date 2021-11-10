@@ -41,4 +41,17 @@
     <string name="signature">Arta Lele by <b>Pancakara</b></string>
     <string name="base_harga_sekarang_adalah">Base Harga sekarang adalah : <b>%1s</b></string>
     <string name="harga_baru">Harga baru</string>
+    <string name="laporan_tahun">Laporan Tahun</string>
+    <string name="durasi_penagihan">Durasi Penagihan</string>
+
+    <string-array name="due_duration_array">
+        <item>Jangan Pernah</item>
+        <item>3 Hari</item>
+        <item>7 Hari</item>
+        <item>14 Hari</item>
+        <item>30 Hari</item>
+        <item>2 Bulan</item>
+        <item>3 Bulan</item>
+
+    </string-array>
 </resources>

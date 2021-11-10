@@ -4,13 +4,15 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.liveData
 import com.ibnu.artalele.data.dao.IncomeDao
+import com.ibnu.artalele.utils.SearchUtils
 
 class IncomeSource(private val incomeDao: IncomeDao) {
 
-    fun getIncomes() = Pager(
+    fun getIncomes(month: String, year: Int) = Pager(
         config = PagingConfig(10)
     ) {
-        incomeDao.getAllIncome()
+        val query = SearchUtils.getAllIncomeTransaction(month, year)
+        incomeDao.getAllIncome(query)
     }.liveData
 
     fun get15NewestIncomes(day: Int, month: String) = Pager(
@@ -21,7 +23,8 @@ class IncomeSource(private val incomeDao: IncomeDao) {
 
     suspend fun getDebtById(id: Int) = incomeDao.getIncomeById(id)
 
-    suspend fun getThisMonthIncomeTotal(month: String) = incomeDao.getThisMonthIncomeTotal(month)
+    suspend fun getThisMonthIncomeTotal(month: String, year: Int) =
+        incomeDao.getIncomeTotalByMonthAndYear(month, year)
 
     suspend fun deleteIncome(id: Int) = incomeDao.deleteIncome(id)
 

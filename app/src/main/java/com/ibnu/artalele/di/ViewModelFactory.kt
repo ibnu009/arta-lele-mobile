@@ -8,11 +8,14 @@ import com.ibnu.artalele.ui.extra.category.SpendingCategoryViewModel
 import com.ibnu.artalele.ui.extra.category.repo.CategoryRepositoryImpl
 import com.ibnu.artalele.ui.extra.category.tambah.AddCategoryViewModel
 import com.ibnu.artalele.ui.home.pemasukan.IncomeViewModel
+import com.ibnu.artalele.ui.home.pemasukan.all.AllIncomeContainerViewModel
 import com.ibnu.artalele.ui.home.pemasukan.detail.DetailIncomeViewModel
 import com.ibnu.artalele.ui.home.pemasukan.repo.PemasukanRepositoryImpl
 import com.ibnu.artalele.ui.home.pengeluaran.SpendingViewModel
+import com.ibnu.artalele.ui.home.pengeluaran.all.AllSpendingContainerViewModel
 import com.ibnu.artalele.ui.home.pengeluaran.detail.DetailSpendingViewModel
 import com.ibnu.artalele.ui.home.pengeluaran.repo.SpendingRepositoryImpl
+import com.ibnu.artalele.ui.home.report.ReportViewModel
 import com.ibnu.artalele.ui.home.tambah.TambahTransaksiViewModel
 import com.ibnu.artalele.ui.home.tambah.TransactionRepositoryImpl
 import com.ibnu.artalele.ui.hutang.BukuHutangViewModel
@@ -64,14 +67,20 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(DetailIncomeViewModel::class.java) -> {
                 DetailIncomeViewModel(pemasukanRepositoryImpl) as T
             }
+            modelClass.isAssignableFrom(IncomeCategoryViewModel::class.java) -> {
+                IncomeCategoryViewModel(categoryRepositoryImpl) as T
+            }
+            modelClass.isAssignableFrom(AllIncomeContainerViewModel::class.java) -> {
+                AllIncomeContainerViewModel(pemasukanRepositoryImpl) as T
+            }
             modelClass.isAssignableFrom(SpendingViewModel::class.java) -> {
                 SpendingViewModel(pengeluaranRepositoryImpl) as T
             }
             modelClass.isAssignableFrom(DetailSpendingViewModel::class.java) -> {
                 DetailSpendingViewModel(pengeluaranRepositoryImpl) as T
             }
-            modelClass.isAssignableFrom(IncomeCategoryViewModel::class.java) -> {
-                IncomeCategoryViewModel(categoryRepositoryImpl) as T
+            modelClass.isAssignableFrom(AllSpendingContainerViewModel::class.java) -> {
+                AllSpendingContainerViewModel(pengeluaranRepositoryImpl) as T
             }
             modelClass.isAssignableFrom(SpendingCategoryViewModel::class.java) -> {
                 SpendingCategoryViewModel(categoryRepositoryImpl) as T
@@ -81,6 +90,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(TambahTransaksiViewModel::class.java) -> {
                 TambahTransaksiViewModel(transactionRepository) as T
+            }
+            modelClass.isAssignableFrom(ReportViewModel::class.java) -> {
+                ReportViewModel(transactionRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

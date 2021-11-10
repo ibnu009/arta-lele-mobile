@@ -13,9 +13,8 @@ class ArtaLeleHelper {
             return Integer.parseInt(rawNumber)
         }
 
-        fun convertStringToLong(value: String): Long {
-            val rawLong = value.filter { it.isDigit() }
-            return rawLong.toLong()
+        fun convertStringToFloat(value: String): Float {
+            return value.toFloat()
         }
 
         fun addRupiahToAmount(amount: Int): String {
@@ -34,7 +33,7 @@ class ArtaLeleHelper {
             return "Rp $formattedAmount"
         }
 
-        fun addKgToWeight(amount: Long): String {
+        fun addKgToWeight(amount: Float): String {
             return "$amount Kg"
         }
 
@@ -45,18 +44,24 @@ class ArtaLeleHelper {
             return dateFormat.format(date)
         }
 
+        fun convertDateToString(date: Date): String {
+            val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.ROOT)
+            return dateFormat.format(date)
+        }
+
+
+
         fun getDatePickerDialog(
             context: Context,
             dateOnSetlistener: DatePickerDialog.OnDateSetListener
         ): DatePickerDialog {
             val cal = Calendar.getInstance()
-
             return DatePickerDialog(
                 context,
                 dateOnSetlistener,
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
+                cal.get(Calendar.DAY_OF_MONTH),
             )
         }
 
@@ -65,6 +70,7 @@ class ArtaLeleHelper {
             val dateFormat = SimpleDateFormat("MMMM", Locale.ROOT)
             return dateFormat.format(calendar)
         }
+
         fun getCurrentDay(): Int {
             val calendar = Calendar.getInstance().time
             val dateFormat = SimpleDateFormat("dd", Locale.ROOT)
@@ -79,6 +85,11 @@ class ArtaLeleHelper {
 
         fun formatSelectedDate(calendar: Calendar): String {
             val format = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            return format.format(calendar.time)
+        }
+
+        fun formatSelectedYear(calendar: Calendar): String {
+            val format = SimpleDateFormat("yyyy", Locale.getDefault())
             return format.format(calendar.time)
         }
 

@@ -129,6 +129,11 @@ class BukuHutangFragment : Fragment() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        initiateTotalAmount()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _bindingBukuHutangFragment = null

@@ -13,8 +13,13 @@ import com.ibnu.artalele.databinding.DetailSpendingFragmentBinding
 import com.ibnu.artalele.di.ViewModelFactory
 import com.ibnu.artalele.ui.home.pemasukan.detail.DetailIncomeFragmentArgs
 import com.ibnu.artalele.utils.ArtaLeleHelper
+import com.ibnu.artalele.utils.ConstValue.SPENDING
+import timber.log.Timber
 
 class DetailSpendingFragment : Fragment() {
+
+    private var total = 0
+    private var categoryId = 0
 
     private val viewModel by lazy {
         val factory = context?.applicationContext?.let { ViewModelFactory.getInstance(it) }
@@ -28,30 +33,34 @@ class DetailSpendingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _bindingDetailSpendingFragment = DetailSpendingFragmentBinding.inflate(inflater, container, false)
+        _bindingDetailSpendingFragment =
+            DetailSpendingFragmentBinding.inflate(inflater, container, false)
         return _bindingDetailSpendingFragment?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val safeArgs = arguments?.let { DetailIncomeFragmentArgs.fromBundle(it) }
-        val id = safeArgs?.passId ?: 0
+        val safeArgs = arguments?.let { DetailSpendingFragmentArgs.fromBundle(it) }
+        val id = safeArgs?.passid ?: 0
 
         initiateViews(id)
-        initiateToolbarButton(id)
     }
 
     private fun initiateViews(id: Int) {
         viewModel?.getDetailSpending(id)?.observe(viewLifecycleOwner, Observer {
             binding?.tvDate?.text = "${it.day} ${it.month} ${it.year}"
             binding?.tvGrandTotal?.text = ArtaLeleHelper.addRupiahToAmount(it.total)
+            total = it.total
             binding?.tvNote?.text = it.description
             binding?.tvCategoryName?.text = it.category.categoryName
             binding?.imgCategory?.setImageResource(it.category.categoryImage)
+
+            initiateToolbarButton(id, it.category.categoryId)
+            Timber.d("Test id = ${it.category.categoryId}")
         })
     }
 
-    private fun initiateToolbarButton(id: Int) {
+    private fun initiateToolbarButton(id: Int, categoryId: Int) {
         val toolbar = binding?.toolbar
 
         toolbar?.btnClose?.setOnClickListener {
@@ -59,12 +68,28 @@ class DetailSpendingFragment : Fragment() {
         }
 
         toolbar?.btnEdit?.setOnClickListener {
-
+            editSpending(categoryId)
         }
 
         toolbar?.btnDeleteToolbar?.setOnClickListener {
             deleteSpending(id, it)
         }
+    }
+
+    private fun editSpending(categoryId: Int) {
+        val date = binding?.tvDate?.text.toString()
+        val note = binding?.tvNote?.text.toString()
+
+        val action =
+            DetailSpendingFragmentDirections.actionDetailSpendingFragmentToTambahTransaksiFragment(
+                isEdit = true,
+                passTotal = total,
+                passWeight = "0",
+                passDescription = note,
+                passDate = date,
+                passCategoryId = categoryId
+            )
+        view?.findNavController()?.navigate(action)
     }
 
     private fun deleteSpending(id: Int, view: View) {

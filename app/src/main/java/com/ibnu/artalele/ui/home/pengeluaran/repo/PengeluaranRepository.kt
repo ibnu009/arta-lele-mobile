@@ -6,7 +6,7 @@ import com.ibnu.artalele.data.entities.SpendingEntity
 
 interface PengeluaranRepository {
 
-    fun getListSpending(): LiveData<PagingData<SpendingEntity>>
+    fun getListSpending(month: String, year: Int): LiveData<PagingData<SpendingEntity>>
     fun get15Spending(day: Int, month: String): LiveData<PagingData<SpendingEntity>>
 
     suspend fun getThisMonthSpendingTotal(month: String): Int

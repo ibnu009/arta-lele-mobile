@@ -8,18 +8,16 @@ import kotlinx.coroutines.withContext
 
 class SpendingRepositoryImpl(private val source: SpendingSource) : PengeluaranRepository {
 
-    override fun getListSpending(): LiveData<PagingData<SpendingEntity>> {
-
-        TODO("Not yet implemented")
-    }
+    override fun getListSpending(month: String, year: Int): LiveData<PagingData<SpendingEntity>> =
+        source.getAllSpending(month, year)
 
     override fun get15Spending(day: Int, month: String): LiveData<PagingData<SpendingEntity>> =
         source.get15NewestSpending(day, month)
 
     override suspend fun getThisMonthSpendingTotal(month: String): Int {
         var result = 0
-        withContext(Dispatchers.Default){
-            for (i in source.getThisMonthSpendingTotal(month)){
+        withContext(Dispatchers.Default) {
+            for (i in source.getThisMonthSpendingTotal(month)) {
                 result += i
             }
         }
